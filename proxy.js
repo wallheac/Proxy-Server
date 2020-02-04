@@ -69,5 +69,18 @@ app.post('/organizer/panel', (req, res) => {
     })
 })
 
+app.post('/organizer/paper/:paperId', (req, res) => {
+  const id = req.params.paperId
+  let url = `http://localhost:8080/organizer/paper/${id}`
+  const body = req.body
+  request.post({ url, body, json: true},
+    (error, response, body) => {
+      if(error || response.statusCode !== 200) {
+        return res.status(500).json({type: 'error', message: error.message || body})
+      }
+      res.json(body)
+    })
+})
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
